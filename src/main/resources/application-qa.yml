@@ -1,0 +1,16 @@
+spring:
+  sleuth:
+    otel:
+      exporter:
+        otlp:
+          endpoint: http://otel-opentelemetry-collector:4317
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://sso.qapolyflix.dopolytech.fr/realms/polyflix
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true

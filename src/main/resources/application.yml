@@ -1,0 +1,37 @@
+server:
+  port: 5004
+
+spring:
+  application:
+    name: certification
+  profiles:
+    active: local
+  sleuth:
+    otel:
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: http://localhost:4317
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:3002/realms/Polyflix
+  datasource:
+    url: jdbc:postgresql://localhost:5433/certification
+    username: sa_certification
+    password: sa_certification_pwd
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  flyway:
+    locations: classpath:db/migration
+    enabled: false
+
+seeders:
+  enabled: false
