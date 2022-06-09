@@ -1,10 +1,15 @@
 package fr.polyflix.certification.domain.persistence.repository
 
-import fr.polyflix.certification.domain.entity.Certification
+import fr.polyflix.certification.domain.entity.*
+import org.bouncycastle.cert.ocsp.CertificateID
 import java.util.Optional
 import java.util.UUID
 
 interface CertificationRepository {
-    fun findById(certificationId: UUID): Optional<Certification>
-    fun deleteById(certificationId: UUID)
+    fun findCertificationById(certificationId: CertificationID): Optional<Certification>
+    fun deleteCertificationById(certificationId: CertificationID)
+
+    fun findCertificateById(certificateId: CertificateID): Optional<Certificate>
+    fun findUserCertificates(user: User): List<Certificate>
+    fun createCertificateForUser(certification: Certification, user: User): Optional<User>
 }
