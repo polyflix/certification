@@ -1,5 +1,9 @@
 package fr.polyflix.certification.domain.entity
 
-typealias UserID = String
+import java.util.UUID
 
-data class User(val userId: UserID)
+typealias UserID = UUID
+
+data class User(val userId: UserID, val firstName: String, val lastName: String){
+    companion object {}
+}

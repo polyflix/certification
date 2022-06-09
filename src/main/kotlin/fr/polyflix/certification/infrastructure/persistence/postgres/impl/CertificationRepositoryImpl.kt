@@ -1,12 +1,13 @@
 package fr.polyflix.certification.infrastructure.persistence.postgres.impl
 
+import fr.polyflix.certification.application.http.port.input.CreateCertificationRequest
 import fr.polyflix.certification.domain.entity.Certificate
 import fr.polyflix.certification.domain.entity.Certification
 import fr.polyflix.certification.domain.entity.CertificationID
 import fr.polyflix.certification.domain.entity.User
 import fr.polyflix.certification.domain.persistence.repository.CertificationRepository
 import fr.polyflix.certification.infrastructure.persistence.postgres.SpringCertificationRepository
-import fr.polyflix.certification.infrastructure.persistence.postgres.mapper.CertificationEntityMapper
+import fr.polyflix.certification.infrastructure.persistence.postgres.mapper.from
 import org.bouncycastle.cert.ocsp.CertificateID
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -14,12 +15,15 @@ import java.util.*
 @Repository
 class CertificationRepositoryImpl(
     private val repository: SpringCertificationRepository,
-    private val mapper: CertificationEntityMapper
 ) : CertificationRepository {
     override fun findCertificationById(certificationId: CertificationID): Optional<Certification> {
         return repository
             .findById(certificationId)
-            .map { mapper.toDomain(it) }
+            .map { Certification.from(it) }
+    }
+
+    override fun createCertification(certificationDto: CreateCertificationRequest): Optional<Certification> {
+        TODO("Not yet implemented")
     }
 
     override fun deleteCertificationById(certificationId: CertificationID) {

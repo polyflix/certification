@@ -1,3 +1,9 @@
 package fr.polyflix.certification.domain.entity
 
-data class Certificate(val certification: Certification, val userId: String)
+import java.util.UUID
+
+typealias CertificateID = UUID
+
+data class Certificate(val certificateID: CertificateID, val certification: Certification, val userId: String) {
+    companion object {}
+}

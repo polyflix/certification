@@ -16,7 +16,6 @@ import javax.persistence.TemporalType
 class CertificationEntity(
     @Id val id: UUID,
     @Column val name: String,
-    @Column val approved: Boolean,
 
     @Column
     @CreationTimestamp
@@ -27,4 +26,6 @@ class CertificationEntity(
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     val updatedAt: Date,
-)
+) {
+    companion object {}
+}
