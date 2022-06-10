@@ -7,6 +7,7 @@ import java.util.*
 
 class UserRepositoryImpl : UserRepository {
     override fun findUserById(userId: UserID): Optional<User> {
-        TODO("Not yet implemented")
+        val user = User(UUID.randomUUID(), "John", "Doe")
+        return Optional.of(user)
     }
 }

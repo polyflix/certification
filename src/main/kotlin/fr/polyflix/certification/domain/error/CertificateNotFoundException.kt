@@ -1,6 +1,7 @@
 package fr.polyflix.certification.domain.error
 
-import org.bouncycastle.cert.ocsp.CertificateID
+import fr.polyflix.certification.domain.entity.CertificateID
+
 
 class CertificateNotFoundException(certificateId: CertificateID) : DomainException("Certificate $certificateId was not found") {
 }

@@ -4,11 +4,11 @@ import fr.polyflix.certification.application.http.port.input.CreateCertification
 import fr.polyflix.certification.application.http.port.output.CertificateResponse
 import fr.polyflix.certification.application.http.port.output.CertificatesResponse
 import fr.polyflix.certification.application.http.port.output.CertificationResponse
+import fr.polyflix.certification.domain.entity.CertificateID
 import fr.polyflix.certification.domain.entity.CertificationID
 import fr.polyflix.certification.domain.entity.UserID
 import fr.polyflix.certification.domain.service.CertificateService
 import fr.polyflix.certification.domain.service.CertificationService
-import org.bouncycastle.cert.ocsp.CertificateID
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

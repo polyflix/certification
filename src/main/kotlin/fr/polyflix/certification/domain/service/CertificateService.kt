@@ -1,13 +1,13 @@
 package fr.polyflix.certification.domain.service
 
 import fr.polyflix.certification.domain.entity.Certificate
+import fr.polyflix.certification.domain.entity.CertificateID
 import fr.polyflix.certification.domain.entity.User
 import fr.polyflix.certification.domain.entity.UserID
 import fr.polyflix.certification.domain.error.CertificateNotFoundException
 import fr.polyflix.certification.domain.error.UserNotFoundException
 import fr.polyflix.certification.domain.persistence.repository.CertificationRepository
 import fr.polyflix.certification.domain.persistence.repository.UserRepository
-import org.bouncycastle.cert.ocsp.CertificateID
 import org.slf4j.LoggerFactory
 
 class CertificateService(private val certificationRepository: CertificationRepository, private val userRepository: UserRepository) {

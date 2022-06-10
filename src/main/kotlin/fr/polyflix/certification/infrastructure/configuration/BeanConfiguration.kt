@@ -4,6 +4,7 @@ import fr.polyflix.certification.domain.persistence.repository.CertificationRepo
 import fr.polyflix.certification.domain.persistence.repository.UserRepository
 import fr.polyflix.certification.domain.service.CertificateService
 import fr.polyflix.certification.domain.service.CertificationService
+import fr.polyflix.certification.infrastructure.persistence.memory.CertificationRepositoryImpl
 import fr.polyflix.certification.infrastructure.persistence.memory.UserRepositoryImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,6 +14,11 @@ class BeanConfiguration {
     @Bean
     fun userRepository() : UserRepository {
         return UserRepositoryImpl()
+    }
+
+    @Bean
+    fun certificationRepository() : CertificationRepository {
+        return CertificationRepositoryImpl()
     }
 
     @Bean
