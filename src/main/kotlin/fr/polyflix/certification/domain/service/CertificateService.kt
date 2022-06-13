@@ -1,10 +1,10 @@
 package fr.polyflix.certification.domain.service
 
-import fr.polyflix.certification.domain.entity.Certificate
-import fr.polyflix.certification.domain.entity.CertificateID
-import fr.polyflix.certification.domain.entity.User
-import fr.polyflix.certification.domain.entity.UserID
+import fr.polyflix.certification.application.http.port.input.CreateCertificateRequest
+import fr.polyflix.certification.domain.entity.*
+import fr.polyflix.certification.domain.error.CertificateCreationFailedException
 import fr.polyflix.certification.domain.error.CertificateNotFoundException
+import fr.polyflix.certification.domain.error.CertificationNotFoundException
 import fr.polyflix.certification.domain.error.UserNotFoundException
 import fr.polyflix.certification.domain.ports.repository.CertificationRepository
 import fr.polyflix.certification.domain.ports.repository.UserRepository
@@ -44,5 +44,29 @@ class CertificateService(private val certificationRepository: CertificationRepos
         logger.debug("getOrFailUserByUserId(), userId: $userId, found: ${userOption.isPresent}")
 
         return userOption.orElse(User(userId, "", ""))
+    }
+
+    fun createCertificateForUser(createCertificateDto: CreateCertificateRequest): Certificate {
+        return createOrFailCertificateForUser(createCertificateDto.certificationId, createCertificateDto.userId)
+    }
+
+    private fun createOrFailCertificateForUser(certificationId: CertificationID, userId: UserID): Certificate {
+        val certificationOption = certificationRepository.findCertificationById(certificationId)
+        val certification = certificationOption.orElseThrow { CertificationNotFoundException(certificationId) }
+
+        val certificateCreatedOption = certificationRepository.createCertificateForUser(certification, userId)
+        return certificateCreatedOption.orElseThrow { CertificateCreationFailedException(certificationId, userId) }
+    }
+
+    fun deleteCertificate(certificateId: CertificateID): Certificate {
+        return deleteOrFailCertificate(certificateId)
+    }
+
+    private fun deleteOrFailCertificate(certificateId: CertificateID): Certificate {
+        val certificateOption = certificationRepository.findCertificateById(certificateId)
+        val certificate = certificateOption.orElseThrow { CertificateNotFoundException(certificateId) }
+
+        certificationRepository.deleteCertificate(certificate)
+        return certificate
     }
 }

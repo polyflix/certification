@@ -1,11 +1,8 @@
 package fr.polyflix.certification.infrastructure.persistence.memory
 
 import fr.polyflix.certification.application.http.port.input.CreateCertificationRequest
-import fr.polyflix.certification.domain.entity.Certificate
-import fr.polyflix.certification.domain.entity.CertificateID
-import fr.polyflix.certification.domain.entity.Certification
-import fr.polyflix.certification.domain.entity.CertificationID
-import fr.polyflix.certification.domain.entity.User
+import fr.polyflix.certification.domain.entity.*
+import fr.polyflix.certification.domain.error.CertificateNotFoundException
 import fr.polyflix.certification.domain.error.CertificationNotFoundException
 import fr.polyflix.certification.domain.ports.repository.CertificationRepository
 import java.util.*
@@ -68,11 +65,21 @@ class CertificationRepositoryImpl : CertificationRepository {
         return this.certificates.filterIndexed { _, i -> i.userId == user.userId }
     }
 
-    override fun createCertificateForUser(certification: Certification, user: User): Optional<Certificate> {
-        val certificate = Certificate(certification, user)
+    override fun createCertificateForUser(certification: Certification, userId: UserID): Optional<Certificate> {
+        val certificate = Certificate(UUID.randomUUID(), userId ,certification)
 
         certificates.add(certificate)
 
         return Optional.of(certificate)
+    }
+
+    override fun deleteCertificate(certificate: Certificate): Result<Unit> {
+        val deletedBool = certificates.removeIf { it.certificateID === certificate.certificateID }
+
+        if (!deletedBool) {
+            return Result.failure(CertificateNotFoundException(certificate.certificateID))
+        }
+
+        return Result.success(Unit)
     }
 }

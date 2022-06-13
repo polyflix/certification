@@ -1,5 +1,6 @@
 package fr.polyflix.certification.application.http.controller
 
+import fr.polyflix.certification.application.http.port.input.CreateCertificateRequest
 import fr.polyflix.certification.application.http.port.input.CreateCertificationRequest
 import fr.polyflix.certification.application.http.port.input.UpdateCertificationRequest
 import fr.polyflix.certification.application.http.port.output.CertificateResponse
@@ -79,5 +80,21 @@ class CertificationController(
         val certificates = certificateService.getUserCertificates(userId)
 
        return ResponseEntity.ok(CertificatesResponse(certificates))
+    }
+
+    @PostMapping("/certificate")
+    fun createCertificate(@RequestBody body: CreateCertificateRequest): ResponseEntity<CertificateResponse> {
+        logger.info("createCertificate()")
+        val certificate = certificateService.createCertificateForUser(body)
+
+        return ResponseEntity.ok(CertificateResponse(certificate))
+    }
+
+    @DeleteMapping("certificate/{id}")
+    fun deleteCertificate(@PathVariable id: CertificateID): ResponseEntity<CertificateResponse> {
+        logger.info("deleteCertificate()")
+        val certificate = certificateService.deleteCertificate(id)
+
+        return ResponseEntity.ok(CertificateResponse(certificate))
     }
 }

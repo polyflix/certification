@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.ResponseStatus
 @ControllerAdvice
 class HttpControllerExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = [
-        CertificateNotFoundException::class,
-        CertificationNotFoundException::class,
-        UserNotFoundException::class
-    ])
-    fun handleNotFound() {}
+    @ExceptionHandler(
+        value = [
+            CertificateNotFoundException::class,
+            CertificationNotFoundException::class,
+            UserNotFoundException::class,
+            CertificateNotFoundException::class
+        ]
+    )
+    fun handleNotFound() {
+    }
 }

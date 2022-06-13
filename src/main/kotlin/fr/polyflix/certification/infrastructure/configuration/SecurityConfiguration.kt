@@ -10,10 +10,10 @@ class SecurityConfiguration: WebSecurityConfigurerAdapter() {
     override fun configure(web: HttpSecurity) {
         http.authorizeRequests {
             it
-                .antMatchers("/**")
+                .antMatchers("/actuator/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
-        }.csrf().disable()
+        }.oauth2ResourceServer { it.jwt() }
     }
 }

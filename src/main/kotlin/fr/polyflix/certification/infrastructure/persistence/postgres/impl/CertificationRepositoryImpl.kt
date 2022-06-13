@@ -58,11 +58,16 @@ class CertificationRepositoryImpl(
             .map { Certificate.from(it) }
     }
 
-    override fun createCertificateForUser(certification: Certification, user: User): Optional<Certificate> {
-        val model = Certificate(UUID.randomUUID(), user.userId, certification, user)
+    override fun createCertificateForUser(certification: Certification, userId: UserID): Optional<Certificate> {
+        val model = Certificate(UUID.randomUUID(), userId, certification)
         val entity = CertificateEntity.from(model)
         val added = certificateRepository
             .save(entity)
         return Optional.of(Certificate.from(added))
+    }
+
+    override fun deleteCertificate(certificate: Certificate): Result<Unit> {
+        certificateRepository.deleteById(certificate.certificateID)
+        return Result.success(Unit)
     }
 }
