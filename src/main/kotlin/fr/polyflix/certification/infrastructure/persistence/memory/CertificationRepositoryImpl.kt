@@ -6,13 +6,17 @@ import fr.polyflix.certification.domain.entity.CertificateID
 import fr.polyflix.certification.domain.entity.Certification
 import fr.polyflix.certification.domain.entity.CertificationID
 import fr.polyflix.certification.domain.entity.User
-import fr.polyflix.certification.domain.persistence.repository.CertificationRepository
-import org.slf4j.LoggerFactory
+import fr.polyflix.certification.domain.error.CertificationNotFoundException
+import fr.polyflix.certification.domain.ports.repository.CertificationRepository
 import java.util.*
 
 class CertificationRepositoryImpl : CertificationRepository {
-    private val certifications = emptyList<Certification>()
-    private val certificates = emptyList<Certificate>()
+    private val certifications = mutableListOf<Certification>()
+    private val certificates = mutableListOf<Certificate>()
+
+    override fun findAllCertifications(): List<Certification> {
+        return certifications
+    }
 
     override fun findCertificationById(certificationId: CertificationID): Optional<Certification> {
         val certification = certifications.find { it.id == certificationId }
@@ -21,7 +25,7 @@ class CertificationRepositoryImpl : CertificationRepository {
 
     override fun createCertification(certificationDto: CreateCertificationRequest): Optional<Certification> {
         val certification = Certification(UUID.randomUUID(), certificationDto.name, Date(), Date())
-        val added = certifications.toMutableList().add(certification)
+        val added = certifications.add(certification)
 
         if (!added) {
             return Optional.empty()
@@ -30,8 +34,27 @@ class CertificationRepositoryImpl : CertificationRepository {
         return Optional.of(certification)
     }
 
-    override fun deleteCertificationById(certificationId: CertificationID) {
-        certifications.toMutableList().removeIf { it.id === certificationId }
+    override fun updateCertification(certification: Certification): Result<Certification> {
+        val foundCertificationOpt = findCertificationById(certification.id)
+
+        if (foundCertificationOpt.isEmpty) {
+            return Result.failure(CertificationNotFoundException(certification.id))
+        }
+
+        val foundCertification = foundCertificationOpt.get()
+        foundCertification.name = certification.name
+
+        return Result.success(foundCertification)
+    }
+
+    override fun deleteCertification(certification: Certification): Result<Unit> {
+        val deletedBool = certifications.removeIf { it.id === certification.id }
+
+        if (!deletedBool) {
+            return Result.failure(CertificationNotFoundException(certification.id))
+        }
+
+        return Result.success(Unit)
     }
 
     override fun findCertificateById(certificateId: CertificateID): Optional<Certificate> {
@@ -48,7 +71,7 @@ class CertificationRepositoryImpl : CertificationRepository {
     override fun createCertificateForUser(certification: Certification, user: User): Optional<Certificate> {
         val certificate = Certificate(UUID.randomUUID(), certification, user.userId)
 
-        certificates.toMutableList().add(certificate)
+        certificates.add(certificate)
 
         return Optional.of(certificate)
     }

@@ -1,4 +1,4 @@
-package fr.polyflix.certification.domain.persistence.repository
+package fr.polyflix.certification.domain.ports.repository
 
 import fr.polyflix.certification.domain.entity.User
 import fr.polyflix.certification.domain.entity.UserID
