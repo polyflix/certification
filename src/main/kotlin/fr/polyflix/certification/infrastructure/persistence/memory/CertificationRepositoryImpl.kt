@@ -69,7 +69,7 @@ class CertificationRepositoryImpl : CertificationRepository {
     }
 
     override fun createCertificateForUser(certification: Certification, user: User): Optional<Certificate> {
-        val certificate = Certificate(UUID.randomUUID(), user.userId ,certification)
+        val certificate = Certificate(certification, user)
 
         certificates.add(certificate)
 

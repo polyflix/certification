@@ -7,7 +7,7 @@ import fr.polyflix.certification.infrastructure.persistence.postgres.entity.Cert
 
 fun Certificate.Companion.from(entity: CertificateEntity): Certificate {
     val certification = Certification.from(entity.certification)
-    return Certificate(entity.certificateID, entity.userId, certification)
+    return Certificate(certification, entity.userId)
 }
 
 fun CertificateEntity.Companion.from(entity: Certificate): CertificateEntity {

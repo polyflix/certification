@@ -15,7 +15,6 @@ class CertificateService(private val certificationRepository: CertificationRepos
 
     fun getUserCertificates(userId: UserID): List<Certificate> {
         val user = getOrFailUserById(userId)
-
         return certificationRepository.findUserCertificates(user)
     }
 
@@ -23,11 +22,14 @@ class CertificateService(private val certificationRepository: CertificationRepos
         val userOption = userRepository.findUserById(userId)
         logger.debug("getOrFailUserByUserId(), userId: $userId, found: ${userOption.isPresent}")
 
-        return userOption.orElseThrow { UserNotFoundException(userId) }
+        return userOption.orElse(User(userId, "", ""))
     }
 
     fun getCertificate(certificateID: CertificateID): Certificate {
-        return getOrFailCertificateById(certificateID)
+        val certification = getOrFailCertificateById(certificateID)
+        val user = getOrCircuitBreakerUserByUserId(certification.userId)
+
+        return certification.copy(user = user)
     }
 
     private fun getOrFailCertificateById(certificateID: CertificateID): Certificate {
@@ -35,5 +37,12 @@ class CertificateService(private val certificationRepository: CertificationRepos
         logger.debug("getORFailCertificateById(), certificateId: $certificateID, found: ${certificateOption.isPresent}")
 
         return certificateOption.orElseThrow { CertificateNotFoundException(certificateID) }
+    }
+
+    private fun getOrCircuitBreakerUserByUserId(userId: UserID): User {
+        val userOption = userRepository.findUserById(userId)
+        logger.debug("getOrFailUserByUserId(), userId: $userId, found: ${userOption.isPresent}")
+
+        return userOption.orElse(User(userId, "", ""))
     }
 }
