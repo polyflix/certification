@@ -2,17 +2,11 @@ package fr.polyflix.certification.infrastructure.persistence.postgres.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import java.util.Date
-import java.util.UUID
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
+import java.util.*
+import javax.persistence.*
 
 @Entity
-@Table(name= "certifications")
+@Table(name = "certifications")
 class CertificationEntity(
     @Id val id: UUID,
     @Column val name: String,
@@ -26,6 +20,9 @@ class CertificationEntity(
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     val updatedAt: Date,
-) {
+
+    @OneToMany(mappedBy = "certification", cascade = [CascadeType.ALL]) val certificates: List<CertificateEntity>,
+
+    ) {
     companion object {}
 }

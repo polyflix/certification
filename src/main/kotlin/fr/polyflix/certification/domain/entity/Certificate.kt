@@ -4,6 +4,6 @@ import java.util.UUID
 
 typealias CertificateID = UUID
 
-data class Certificate(val certificateID: CertificateID, val certification: Certification, val userId: UserID) {
+data class Certificate(val certificateID: CertificateID, val userId: UserID, val certification: Certification) {
     companion object {}
 }

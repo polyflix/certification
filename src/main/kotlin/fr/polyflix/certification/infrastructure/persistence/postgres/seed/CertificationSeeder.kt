@@ -24,19 +24,22 @@ class CertificationSeeder(
                 UUID.randomUUID(),
                 "AWS Associate",
                 Date(),
-                Date()
+                Date(),
+                emptyList()
             ),
             CertificationEntity(
                 UUID.randomUUID(),
                 "AWS Cloud Expert",
                 Date(),
-                Date()
+                Date(),
+                emptyList()
             ),
             CertificationEntity(
                 UUID.randomUUID(),
                 "AWS Cloud Trainer",
                 Date(),
-                Date()
+                Date(),
+                emptyList()
             ),
         )
 

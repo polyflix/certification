@@ -8,6 +8,6 @@ fun Certification.Companion.from(entity: CertificationEntity): Certification {
 }
 
 fun CertificationEntity.Companion.from(entity: Certification): CertificationEntity {
-    return CertificationEntity(entity.id, entity.name, entity.createdAt, entity.updatedAt)
+    return CertificationEntity(entity.id, entity.name, entity.createdAt, entity.updatedAt, emptyList())
 }
 
