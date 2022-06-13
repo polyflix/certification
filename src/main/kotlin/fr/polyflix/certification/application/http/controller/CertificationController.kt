@@ -28,7 +28,7 @@ class CertificationController(
     @GetMapping
     fun findAllCertifications(): ResponseEntity<CertificationsResponse> {
         logger.info("findAllCertifications()")
-        val certifications = certificationService.getAllCertifications()
+        val certifications = certificationService.getAllCertifications().map { CertificationResponse(it) }
 
         return ResponseEntity.ok(CertificationsResponse(certifications))
     }
