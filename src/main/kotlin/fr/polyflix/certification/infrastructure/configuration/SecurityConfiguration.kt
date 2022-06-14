@@ -10,7 +10,7 @@ class SecurityConfiguration: WebSecurityConfigurerAdapter() {
     override fun configure(web: HttpSecurity) {
         http.authorizeRequests {
             it
-                .antMatchers("/actuator/**", "/v2.0.0/certifications/certificate/{id}")
+                .antMatchers("/actuator/**", "/*/certifications/certificate/{id}")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
