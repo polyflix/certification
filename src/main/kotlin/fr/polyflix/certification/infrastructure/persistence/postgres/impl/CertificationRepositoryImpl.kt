@@ -59,7 +59,7 @@ class CertificationRepositoryImpl(
     }
 
     override fun createCertificateForUser(certification: Certification, userId: UserID): Optional<Certificate> {
-        val model = Certificate(UUID.randomUUID(), userId, certification)
+        val model = Certificate(UUID.randomUUID(), userId, Date(), certification)
         val entity = CertificateEntity.from(model)
         val added = certificateRepository
             .save(entity)
