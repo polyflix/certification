@@ -6,5 +6,6 @@ import java.util.*
 
 interface SpringCertificateRepository: JpaRepository<CertificateEntity, UUID> {
     fun findByUserId(userId: UUID): List<CertificateEntity>
+    fun findByCertificationId(id: UUID): List<CertificateEntity>
 }
 

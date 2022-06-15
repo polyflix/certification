@@ -14,6 +14,7 @@ interface CertificationRepository {
 
     fun findCertificateById(certificateId: CertificateID): Optional<Certificate>
     fun findUserCertificates(user: User): List<Certificate>
+    fun findCertificationCertificates(id: CertificationID): List<Certificate>
     fun createCertificateForUser(certification: Certification, userId: UserID): Optional<Certificate>
     fun deleteCertificate(certificate: Certificate): Result<Unit>
 }

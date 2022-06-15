@@ -12,6 +12,19 @@ import org.slf4j.LoggerFactory
 class CertificateService(private val certificationRepository: CertificationRepository, private val userRepository: UserRepository) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    fun getCertificationCertificate(id: CertificationID): List<Certificate> {
+        val certificatesWithoutUser = certificationRepository.findCertificationCertificates(id)
+        val certificatesWithUser = mutableListOf<Certificate>()
+
+        for (certificate in certificatesWithoutUser) {
+            val user = getOrCircuitBreakerUserByUserId(certificate.userId)
+            val certificateWithUser = certificate.copy(user = user)
+            certificatesWithUser.add(certificateWithUser)
+        }
+
+        return certificatesWithUser
+    }
+
     fun getUserCertificates(userId: UserID): List<Certificate> {
         val user = getOrFailUserById(userId)
         return certificationRepository.findUserCertificates(user)

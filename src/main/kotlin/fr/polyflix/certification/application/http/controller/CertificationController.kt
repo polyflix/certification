@@ -64,6 +64,13 @@ class CertificationController(
         return ResponseEntity.ok(CertificationResponse(certification))
     }
 
+    @GetMapping("{id}/certificate")
+    fun findCertificateByCertification(@PathVariable id: CertificationID): ResponseEntity<CertificatesResponse> {
+        logger.info("findCertificationCertificates()")
+        val certificates = certificateService.getCertificationCertificate(id).map { CertificateResponse(it) }
+
+        return ResponseEntity.ok(CertificatesResponse(certificates))
+    }
     @GetMapping("/certificate/{id}")
     fun findCertificateById(@PathVariable id: CertificateID): ResponseEntity<CertificateResponse> {
         logger.info("findCertificateById()")
@@ -75,7 +82,7 @@ class CertificationController(
     @GetMapping("/certificate")
     fun findUserCertificates(@RequestHeader("X-User-Id") userId: UserID): ResponseEntity<CertificatesResponse> {
         logger.info("findUserCertificates()")
-        val certificates = certificateService.getUserCertificates(userId)
+        val certificates = certificateService.getUserCertificates(userId).map { CertificateResponse(it) }
 
        return ResponseEntity.ok(CertificatesResponse(certificates))
     }

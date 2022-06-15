@@ -58,6 +58,12 @@ class CertificationRepositoryImpl(
             .map { Certificate.from(it) }
     }
 
+    override fun findCertificationCertificates(id: CertificationID): List<Certificate> {
+        return certificateRepository
+            .findByCertificationId(id)
+            .map { Certificate.from(it) }
+    }
+
     override fun createCertificateForUser(certification: Certification, userId: UserID): Optional<Certificate> {
         val model = Certificate(UUID.randomUUID(), userId, Date(), certification)
         val entity = CertificateEntity.from(model)

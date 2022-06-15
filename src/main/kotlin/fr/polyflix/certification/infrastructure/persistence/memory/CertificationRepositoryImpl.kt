@@ -65,6 +65,10 @@ class CertificationRepositoryImpl : CertificationRepository {
         return this.certificates.filterIndexed { _, i -> i.userId == user.userId }
     }
 
+    override fun findCertificationCertificates(id: CertificationID): List<Certificate> {
+        TODO("Not yet implemented")
+    }
+
     override fun createCertificateForUser(certification: Certification, userId: UserID): Optional<Certificate> {
         val certificate = Certificate(UUID.randomUUID(), userId, Date() ,certification)
 
