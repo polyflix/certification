@@ -5,7 +5,6 @@ import fr.polyflix.certification.domain.entity.*
 import fr.polyflix.certification.domain.error.CertificateCreationFailedException
 import fr.polyflix.certification.domain.error.CertificateNotFoundException
 import fr.polyflix.certification.domain.error.CertificationNotFoundException
-import fr.polyflix.certification.domain.error.UserNotFoundException
 import fr.polyflix.certification.domain.ports.repository.CertificationRepository
 import fr.polyflix.certification.domain.ports.repository.UserRepository
 import org.slf4j.LoggerFactory
@@ -26,10 +25,10 @@ class CertificateService(private val certificationRepository: CertificationRepos
     }
 
     fun getCertificate(certificateID: CertificateID): Certificate {
-        val certification = getOrFailCertificateById(certificateID)
-        val user = getOrCircuitBreakerUserByUserId(certification.userId)
+        val certificate = getOrFailCertificateById(certificateID)
+        val user = getOrCircuitBreakerUserByUserId(certificate.userId)
 
-        return certification.copy(user = user)
+        return certificate.copy(user = user)
     }
 
     private fun getOrFailCertificateById(certificateID: CertificateID): Certificate {
@@ -47,7 +46,9 @@ class CertificateService(private val certificationRepository: CertificationRepos
     }
 
     fun createCertificateForUser(createCertificateDto: CreateCertificateRequest): Certificate {
-        return createOrFailCertificateForUser(createCertificateDto.certificationId, createCertificateDto.userId)
+        val certificate = createOrFailCertificateForUser(createCertificateDto.certificationId, createCertificateDto.userId)
+        val user = getOrCircuitBreakerUserByUserId(certificate.userId)
+        return certificate.copy(user = user)
     }
 
     private fun createOrFailCertificateForUser(certificationId: CertificationID, userId: UserID): Certificate {
@@ -59,7 +60,10 @@ class CertificateService(private val certificationRepository: CertificationRepos
     }
 
     fun deleteCertificate(certificateId: CertificateID): Certificate {
-        return deleteOrFailCertificate(certificateId)
+        val certificate = deleteOrFailCertificate(certificateId)
+        val user = getOrCircuitBreakerUserByUserId(certificate.userId)
+
+        return certificate.copy(user = user)
     }
 
     private fun deleteOrFailCertificate(certificateId: CertificateID): Certificate {

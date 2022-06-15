@@ -8,7 +8,6 @@ import fr.polyflix.certification.application.http.port.output.CertificatesRespon
 import fr.polyflix.certification.application.http.port.output.CertificationResponse
 import fr.polyflix.certification.application.http.port.output.CertificationsResponse
 import fr.polyflix.certification.domain.entity.CertificateID
-import fr.polyflix.certification.domain.entity.Certification
 import fr.polyflix.certification.domain.entity.CertificationID
 import fr.polyflix.certification.domain.entity.UserID
 import fr.polyflix.certification.domain.service.CertificateService
@@ -16,7 +15,6 @@ import fr.polyflix.certification.domain.service.CertificationService
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.validation.Valid
 
 @RestController
 @RequestMapping("/v2.0.0/certifications")
